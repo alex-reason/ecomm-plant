@@ -1,6 +1,11 @@
 import NextAuth from 'next-auth';
+// providers
 import GoogleProvider from 'next-auth/providers/google';
 // import EmailProvider from 'next-auth/providers/email';
+
+// MongoDB adapter
+import { MongoDBAdapter } from "@auth/mongodb-adapter"
+import clientPromise from "../../../lib/mongodb"
 
 export default NextAuth({
   providers: [
@@ -14,5 +19,6 @@ export default NextAuth({
     //   server: process.env.MAIL_SERVER,
     //   from: 'NextAuth.js <no-reply@example.com>'
     // }),
-  ]
+  ],
+  adapter: MongoDBAdapter(clientPromise),
 });
