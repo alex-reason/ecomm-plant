@@ -1,23 +1,21 @@
-import Image from 'next/image';
-import { Inter } from 'next/font/google';
-import { useSession, signIn, signOut } from "next-auth/react";
 
-const inter = Inter({ subsets: ['latin'] })
+import { useSession, signOut } from "next-auth/react";
+import Layout from '@/components/Layout';
+import avatar1 from '../assets/nomad-hair-grey-bun.png'
 
 export default function Home() {
-  const { data: session } = useSession()
-
+  const { data: session } = useSession();
+  if (!session) { return };
   return (
-    <div className='bg-orange-700 w-screen h-screen flex items-center'>
-      {session ?
-        <div className='text-center w-full'>
-         <p className='text-lg text-white'>Signed in as {session.user.email}</p>
-          <button className='bg-white p-2 px-4 rounded-lg' onClick={() => signOut()}>Sign out</button>
+    <Layout>
+      <div className="text-orange-700 flex justify-between">
+        <h2>Hello {session?.user?.name}</h2>
+        <div className="flex bg-gray-300 gap-1 text-black rounded-lg overflow-hidden">
+          <img src={(session?.user?.image) ? session?.user?.image : avatar1} className="w-6 h-6 " />
+          <span className="px-2">{session?.user?.name}</span>
         </div>
-        :
-        <div className='text-center w-full'>
-          <button className='bg-white p-2 px-4 rounded-lg' onClick={() => signIn()}>Login with Google</button>
-        </div>}
-    </div>
+      </div>
+    </Layout>
   )
+
 }
