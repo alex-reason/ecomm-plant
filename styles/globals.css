@@ -25,3 +25,19 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+input, textarea {
+  @apply border-2 rounded-md p-1;
+}
+
+h1 {
+  @apply text-xl text-orange-700 mb-4 font-medium;
+}
+
+label {
+  @apply text-orange-700;
+}
+
+.btn-primary {
+  @apply bg-orange-700 text-white px-4 py-1 rounded-md;
+}
