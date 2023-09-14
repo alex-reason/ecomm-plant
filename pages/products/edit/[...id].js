@@ -8,7 +8,7 @@ const EditProductPage = () => {
     const [productInfo, setProductInfo] = useState(null);
 
     const router = useRouter();
-    const id = router.query.edit[1];
+    const { id } = router.query;
     useEffect(() => {
         axios.get('/api/products?id=' + id).then(response => {
             setProductInfo(response.data)
@@ -19,7 +19,7 @@ const EditProductPage = () => {
         <Layout>
             edit product
             {
-                productInfo && <ProductForm formName={'Edit Product'} formValues={productInfo} productId={id}/>
+                productInfo && <ProductForm formName={'Edit Product'} formValues={productInfo} productId={id} />
             }
         </Layout>
     )
