@@ -18,15 +18,13 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }
 
-input, textarea {
+input,
+textarea {
   @apply border-2 rounded-md p-1;
 }
 
@@ -38,6 +36,14 @@ label {
   @apply text-orange-700;
 }
 
-.btn-primary {
-  @apply bg-orange-700 text-white px-4 py-1 rounded-md;
+.btn-default, .btn-red {
+  @apply px-4 py-1 rounded-md text-white;
+}
+
+.btn-default {
+  @apply bg-gray-600;
+}
+
+.btn-red {
+  @apply bg-red-800;
 }

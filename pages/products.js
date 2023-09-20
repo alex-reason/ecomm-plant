@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const Products = () => {
     const [productsList, setProductsList] = useState([]);
-    const productListLinkStyle = "bg-orange-700 text-white text-sm mx-1 py-1 px-2 rounded-lg gap-1 hover:bg-orange-800 flex items-center";
+    const productListLinkStyle = "bg-gray-200 text-black text-sm mx-1 py-1 px-2 rounded-lg gap-1 flex items-center hover:bg-orange-700 hover:text-white";
 
     useEffect(() => {
         axios.get('/api/products').then(response => {
@@ -15,10 +15,13 @@ const Products = () => {
 
     return (
         <Layout>
-            <Link href={'/products/new'} className="bg-orange-700 text-white py-1 px-2 rounded-md">Add a product</Link>
+            <Link href={'/products/new'} className="bg-green-600 text-white py-1 px-2 rounded-md">Add a product</Link>
             <div className="flex flex-col">
-                <h3 className="bg-red-100 px-1 my-1">Product name</h3>
                 <div className="w-1/2">
+                    <div className="flex justify-between my-3 items-center">
+                        <h3 className="bg-red-100 px-1 my-1 width">Product name</h3>
+
+                    </div>
                     {productsList && productsList.map(productItem => (
                         <div key={productItem._id} className="flex justify-between my-3 items-center">
                             <p >{productItem?.title}</p>
