@@ -1,9 +1,10 @@
+// components and assets
 import Layout from "@/components/Layout";
 
 const Settings = () => {
   return (
-   <Layout> settings </Layout>
+    <Layout> settings </Layout>
   )
-}
+};
 
-export default Settings
+export default Settings;

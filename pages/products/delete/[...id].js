@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
+// components and assets
 import Layout from '@/components/Layout';
 
 const DeleteProductPage = () => {
@@ -24,7 +25,7 @@ const DeleteProductPage = () => {
     const handleDelete = async () => {
         await axios.delete(`/api/products/?id=${id}`);
         handleGoBack()
-    }
+    };
 
     return (
         <Layout>

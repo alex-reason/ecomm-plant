@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+// components and assets
 import Layout from "@/components/Layout";
 import ProductForm from "@/components/ProductForm";
 
@@ -14,12 +15,18 @@ const EditProductPage = () => {
         axios.get('/api/products?id=' + id).then(response => {
             setProductInfo(response.data)
         })
-    }, [id])
+    }, [id]);
 
     return (
         <Layout>
-            {
-                productInfo && <ProductForm formName={'Edit Product'} imageList={productInfo.imageList || []} formValues={productInfo} productId={id} />
+            {productInfo &&
+                <ProductForm
+                    formName={'Edit Product'}
+                    imageList={productInfo.imageList || []}
+                    formValues={productInfo}
+                    productId={id}
+                    photosLabel="photos for product"
+                />
             }
         </Layout>
     )

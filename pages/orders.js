@@ -1,11 +1,12 @@
-import Layout from "@/components/Layout"
+// components and assets
+import Layout from "@/components/Layout";
 
 const Orders = () => {
     return (
         <Layout>
             Orders
-        </Layout> 
-  )
-}
+        </Layout>
+    )
+};
 
-export default Orders
+export default Orders;
