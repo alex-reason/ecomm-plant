@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 // components and assets
-import { HouseIcon, ShopIcon, BagIcon, SettingsIcon } from "@/assets/icons";
+import { HouseIcon, ShopIcon, BagIcon, SettingsIcon, ListIcon } from "@/assets/icons";
 
 const Nav = () => {
     const linkClassname = "flex gap-1 p-1";
@@ -31,12 +31,17 @@ const Nav = () => {
                     Products
                 </Link>
 
+                <Link href={'/categories'} className={router.pathname.includes('/categories') ? activeLinkClassname : linkClassname}>
+                    <ListIcon classname={"w-6 h-6"} />
+                    Categories
+                </Link>
+
                 <Link href={'/settings'} className={router.pathname.includes('/settings') ? activeLinkClassname : linkClassname}>
                     <SettingsIcon classname={"w-6 h-6"} />
                     Settings
                 </Link>
             </nav>
-        </aside>
+        </aside >
     )
 };
 

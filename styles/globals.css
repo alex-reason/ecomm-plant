@@ -24,7 +24,8 @@ body {
 }
 
 input,
-textarea {
+textarea,
+select {
   @apply border-2 rounded-md p-1;
 }
 
@@ -36,7 +37,8 @@ label {
   @apply text-orange-700;
 }
 
-.btn-default, .btn-red {
+.btn-default,
+.btn-red {
   @apply px-4 py-1 rounded-md text-white;
 }
 
@@ -44,6 +46,24 @@ label {
   @apply bg-gray-600;
 }
 
+.btn-secondary {
+  @apply bg-gray-200 rounded-md py-1 px-2 text-black;
+}
+
 .btn-red {
   @apply bg-red-800;
+}
+
+.box-shadow {
+  box-shadow: 0 1px 5px 0 rgba(85, 85, 85, 0.05);
+}
+
+.categories-container {
+  @apply items-center grid grid-cols-4;
+}
+
+@media screen and (max-width: 768px){
+  .categories-container {
+    grid-template-columns: repeat(3, 1fr);;
+  }
 }

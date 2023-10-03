@@ -1,31 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { v4 } from "uuid";
 import axios from "axios";
 //firebase
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "@/pages/api/firebase/firebase";
-// components and assets
+// components and assetss
 import { UploadIcon } from "@/assets/icons";
 
-const defaultFormValues = {
-    title: '',
-    description: '',
-    price: ''
-};
+const defaultFormValues = { title: '', description: '', price: '', category: '' };
 
 const ProductForm = ({ formName, formValues = defaultFormValues, imageList, productId = null, photosLabel = '' }) => {
     const [newProduct, setNewProduct] = useState(formValues);
     const [redirectToProducts, setRedirectToProducts] = useState(false);
     const [uploadedImage, setUploadedImage] = useState(null);
-    const [newImages, setNewImages] = useState([])
-
+    const [newImages, setNewImages] = useState([]);
+    const [categories, setCategories] = useState([]);
     const router = useRouter();
+
+    useEffect(() => {
+        const handleFetch = async () => {
+            axios.get('/api/categories').then(response => {
+                setCategories(response.data);
+            })
+        };
+        return handleFetch;
+    }, []);
 
     const handleCreateProduct = async (e) => {
         e.preventDefault();
         if (productId) {
-            await axios.put('/api/products', { ...newProduct, imageList: imageList, _id: productId }).then(setRedirectToProducts(true));
+            await axios.put('/api/products', { ...newProduct, imageList: [...imageList, ...newImages], _id: productId }).then(setRedirectToProducts(true));
         }
         else {
             await axios.post('/api/products', { ...newProduct, imageList: newImages }).then(setRedirectToProducts(true));
@@ -47,6 +52,14 @@ const ProductForm = ({ formName, formValues = defaultFormValues, imageList, prod
         router.push('/products')
     };
 
+    const propertiesToFill = []
+    if (categories.length > 0 && newProduct.category) {
+        const selectedCategoryInfo = categories.find(({ _id }) => _id === newProduct.category);
+        propertiesToFill.push(...selectedCategoryInfo.properties)
+    }
+
+    console.log(propertiesToFill)
+
     return (
         <>
             <h1>{formName}</h1>
@@ -54,7 +67,31 @@ const ProductForm = ({ formName, formValues = defaultFormValues, imageList, prod
                 <div className="flex flex-col">
                     {/* product name */}
                     <label>Product Name</label>
-                    <input className="mb-2" type="text" placeholder="product name" value={newProduct.title} onChange={(e) => setNewProduct({ ...newProduct, title: e.target.value })} />
+                    <input
+                        className="mb-2"
+                        type="text"
+                        placeholder="product name"
+                        value={newProduct.title}
+                        onChange={(e) => setNewProduct({ ...newProduct, title: e.target.value })}
+                    />
+
+                    {/* categories */}
+                    <label>Category</label>
+                    <select
+                        className="mb-2"
+                        value={newProduct.category}
+                        onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
+                    >
+                        <option value="">uncategorized</option>
+                        {categories.length > 0 && categories.map((item => (
+                            <option key={item._id} value={item._id}>{item.categoryName}</option>
+                        )))}
+                    </select>
+                    {/* properties */}
+                    {propertiesToFill.length > 0 && propertiesToFill.map(property =>
+                        (<p key={property.name}>{property.name}: {property.values}</p>)
+                    )}
+
                     {/* photos */}
                     <div className="mb-2 flex flex-col">
                         <div className="flex items-center mb-3">
@@ -73,19 +110,30 @@ const ProductForm = ({ formName, formValues = defaultFormValues, imageList, prod
                         </div>
                         {newImages?.length > 0 &&
                             <div>
-                                <p>Photos for new product</p>
+                                <p>new photos</p>
                                 {newImages?.length > 0 && newImages.map(item => (
                                     <img src={item} key={item} className="w-auto h-20 rounded-lg" alt='uploaded photo' />
                                 ))}
                             </div>
                         }
                     </div>
+
                     {/* description */}
                     <label>Description</label>
-                    <textarea placeholder="product description" value={newProduct.description} onChange={e => setNewProduct({ ...newProduct, description: e.target.value })} />
+                    <textarea
+                        placeholder="product description"
+                        value={newProduct.description}
+                        onChange={e => setNewProduct({ ...newProduct, description: e.target.value })}
+                    />
+
                     {/* price*/}
                     <label>Price in USD </label>
-                    <input className="mb-2" type="number" placeholder="price" value={newProduct.price} onChange={e => setNewProduct({ ...newProduct, price: e.target.value })} />
+                    <input
+                        className="mb-2"
+                        type="number" placeholder="price"
+                        value={newProduct.price}
+                        onChange={e => setNewProduct({ ...newProduct, price: e.target.value })}
+                    />
                 </div>
                 <button type="submit" className="btn-default">Save</button>
             </form>
